@@ -1,0 +1,39 @@
+####################################################
+# VSS-CLI Config Spec for ContentLibrary deployment#
+####################################################
+built: clib         # Required: Do not remove.
+machine:
+    item: Ubuntu-24.04 # Required: Source content library id OVF.
+    name: vss-ubuntu24-usg-cis-1   # Required: Target virtual machine name.
+    os: ubuntu64Guest     # Required: Guest Operating System name or Id.
+    folder: <CHANGE FOLDER>     # Required: Folder name, path or ID 
+    storage-type: ssd     # Optional: Storage Type to use for this VM. ssd or hdd
+    cpu: 2              # Optional: CPU count (Default: 1).
+    memory: 4            # Optional: Memory in GB (Default: 1GB).
+    firmware: bios
+    domain: FD6
+    disks:
+       - capacity_gb: 50           #  OS Disk
+    power_on: true       # Optional: Power on after successful deployment.
+
+networking:
+    interfaces:
+       -  network: <CHANGE_NETWORK>  # Required: Network name or network ID
+          type: vmxnet3   # Required: Defaults to vmxnet3
+cloud_init:
+    user_data: cloud-init/userdata.yaml
+    network_data: cloud-init/network.yaml
+extra-config:
+    - disk.EnableUUID=TRUE
+metadata:
+    client: VSS   # Required: Client department
+  # Required: Description of virtual machine
+    description: >
+        Ubuntu 24.04 LTS with Ubuntu Pro 
+    usage: Test           # Optional: Usage between Prod | Dev | QA | Test (default: Test)
+    inform:               # Optional: list of additional contact email addresses (default: user account)
+       -  vss@eis.utoronto.ca
+    vss_service: Hosting     # Optional/Required for ITS: VSS Service name or service id
+    vss_options:          # Optional: VSS options reset_on_restore, reboot_on_restore
+       -  reset_on_restore
+       -  reboot_on_restore
